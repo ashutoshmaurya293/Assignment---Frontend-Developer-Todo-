@@ -61,7 +61,7 @@ option {
   padding: 0 1rem;
 }
 .pTitle {
-  width: 105px;
+  width: 305px;
   height: 29px;
   top: 370px;
   left: 895px;
@@ -73,18 +73,18 @@ option {
   line-height: 28px;
 }
 .description {
-  width: 170px;
+  width: 270px;
   height: 28px;
   top: 399px;
   left: 894px;
   gap: 0px;
   opacity: 0px;
 }
-.todoList svg{
+.todoList svg {
   height: 22px;
   cursor: pointer;
 }
-hr{
-    width: 85%;
-    margin: 0 auto;
+hr {
+  width: 85%;
+  margin: 0 auto;
 }

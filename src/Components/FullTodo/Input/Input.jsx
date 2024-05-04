@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Input.css";
+import { getDatabase, ref, set } from "firebase/database";
+import { app } from "../../../friebace";
 
 const Input = () => {
+  const [Title, setTitle] = useState("");
+  const [dsc, setdsc] = useState("");
+  const [completed, setcompleted] = useState(false);
+  const [favorite, setfavorite] = useState(false);
+  const id = Date.now()
+
+
+  const AddTodo = (e) => {
+    const databace = getDatabase(app);
+    set(ref(databace, 'todo/' + id), {
+      todoTitle: Title,
+      todoDsc: dsc,
+      Completed: completed,
+      favorite: favorite,
+    });
+    setTitle("")
+    setdsc("")
+  };
+
+
   return (
     <>
       <div className="Vector">
@@ -19,7 +41,10 @@ const Input = () => {
         </svg>
       </div>
       <div className="inputs">
-       <div className="inph2"> <h2>TODO</h2></div>
+        <div className="inph2">
+          {" "}
+          <h2>TODO</h2>
+        </div>
         <div className="text">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquet at
@@ -29,15 +54,28 @@ const Input = () => {
           </p>
         </div>
         <div className="textinput">
-          <input type="text" className="todotext" placeholder="Title" />
+          <input
+            type="text"
+            className="todotext"
+            placeholder="Title"
+            value={Title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
           <br />
           <input
             type="text"
             className="todotext"
             placeholder="Description"
+            value={dsc}
+            onChange={(e) => setdsc(e.target.value)}
           />
           <br />
-        <button className="add"><span>Add</span></button>
+          <button
+            className="add"
+            onClick={(e) => AddTodo(e)}
+          >
+            <span>Add</span>
+          </button>
         </div>
       </div>
     </>
