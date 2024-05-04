@@ -1,0 +1,90 @@
+.h2 {
+  width: 125px;
+  height: 29px;
+  /* background-color: red; */
+  margin: 3rem;
+}
+h2 {
+  font-family: Roboto;
+  font-size: 25.14px;
+  font-weight: 700;
+  line-height: 29.46px;
+  text-align: left;
+}
+#list {
+  max-height: 700px;
+  overflow-y: scroll;
+}
+.first {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 3.5rem;
+}
+.search input {
+  width: 240px;
+  height: 40px;
+  top: 182px;
+  left: 883px;
+  padding: 5px 12px 5px 12px;
+  gap: 0px;
+  border-radius: 2px 0px 0px 0px;
+  border: 1px 0px 0px 0px;
+  opacity: 0px;
+  background: rgba(255, 255, 255, 1);
+  border: 2px solid rgba(217, 217, 217, 1);
+  border: 1px solid rgba(217, 217, 217, 1);
+}
+.fillter {
+  width: 140px;
+  height: 40px;
+  padding: 4px 12px 4px 12px;
+  gap: 0px;
+  border-radius: 2px 0px 0px 0px;
+  border: 1px 0px 0px 0px;
+}
+option {
+  height: 50px;
+}
+.todoList {
+  width: 616.02px;
+  height: 69.48px;
+  top: 370px;
+  left: 881.99px;
+  gap: 0px;
+  border: 1px 0px 0px 0px;
+  opacity: 0px;
+  margin: 0.1rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+.pTitle {
+  width: 105px;
+  height: 29px;
+  top: 370px;
+  left: 895px;
+  gap: 0px;
+  opacity: 0px;
+  font-family: Roboto;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 28px;
+}
+.description {
+  width: 170px;
+  height: 28px;
+  top: 399px;
+  left: 894px;
+  gap: 0px;
+  opacity: 0px;
+}
+.todoList svg{
+  height: 22px;
+  cursor: pointer;
+}
+hr{
+    width: 85%;
+    margin: 0 auto;
+}
