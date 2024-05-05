@@ -3,7 +3,7 @@ import "./Input.css";
 import { getDatabase, ref, set } from "firebase/database";
 import { app } from "../../../friebace";
 
-const Input = () => {
+const Input = ({setselect}) => {
   const [Title, setTitle] = useState("");
   const [dsc, setdsc] = useState("");
   const [completed, setcompleted] = useState(false);
@@ -11,7 +11,8 @@ const Input = () => {
   const id = Date.now()
 
 
-  const AddTodo = (e) => {
+  const AddTodo = () => {
+    if(Title =="" && dsc == "")return
     const databace = getDatabase(app);
     set(ref(databace, 'todo/' + id), {
       todoTitle: Title,
@@ -22,6 +23,7 @@ const Input = () => {
     });
     setTitle("")
     setdsc("")
+    setselect("")
   };
 
 

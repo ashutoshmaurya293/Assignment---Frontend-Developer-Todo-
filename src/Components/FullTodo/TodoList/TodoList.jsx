@@ -3,16 +3,56 @@ import "./TodoList.css";
 import { getDatabase, onValue, ref, remove, update } from "firebase/database";
 import { app } from "../../../friebace";
 
-const TodoList = () => {
+const TodoList = ({ setselect, select }) => {
   const [Data, setData] = useState();
+
   useEffect(() => {
-    const db = getDatabase(app);
-    const TodoRef = ref(db, "todo");
-    onValue(TodoRef, (snapshort) => {
-      const data = snapshort.val();
-      setData(data);
-    });
-  }, []);
+    // Function to filter completed todos
+    if (Data && select == "Completed") {
+      const filterCompletedTodos = async () => {
+        const filteredTodos = await Object.entries(Data)
+          .filter(([key, value]) => value.Completed === true)
+          .reduce((obj, [key, value]) => {
+            obj[key] = value;
+            return obj;
+          }, {});
+        // setData(filteredTodos);
+        setData(filteredTodos);
+      };
+
+      filterCompletedTodos();
+    } else if (Data && select == "na") return;
+  }, [select]);
+
+  useEffect(() => {
+    // Function to filter completed todos
+    if (Data && select == "Favourite") {
+      const filterCompletedTodos = async () => {
+        const filteredTodos = await Object.entries(Data)
+          .filter(([key, value]) => value.favorite === true)
+          .reduce((obj, [key, value]) => {
+            obj[key] = value;
+            return obj;
+          }, {});
+        // setData(filteredTodos);
+        setData(filteredTodos);
+      };
+
+      filterCompletedTodos();
+    } else if (Data && select == "na") return;
+  }, [select]);
+
+  useEffect(() => {
+    const takeData = async () => {
+      const db = getDatabase(app);
+      const TodoRef = ref(db, "todo");
+      onValue(TodoRef, (snapshort) => {
+        const data = snapshort.val();
+        setData(data);
+      });
+    };
+    takeData();
+  }, [select]);
   const ToggleOpen = (id) => {
     setData((prevData) => {
       // Create a new object with updated toggle property
@@ -45,6 +85,11 @@ const TodoList = () => {
       };
       return updatedData;
     });
+    const db = getDatabase(app);
+    const TodoRef = ref(db, "todo/" + id);
+    update(TodoRef, {
+      favorite: true,
+    });
   };
   const CompletedHandaler = (id) => {
     setData((prevData) => {
@@ -55,6 +100,9 @@ const TodoList = () => {
       };
       return updatedData;
     });
+    const db = getDatabase(app);
+    const TodoRef = ref(db, "todo/" + id);
+    update(TodoRef, { Completed: true });
   };
   return (
     <div id="list">
@@ -65,7 +113,12 @@ const TodoList = () => {
         <div className="search">
           <input type="text" placeholder="search..." />
         </div>
-        <select className="fillter">
+        <select
+          className="fillter"
+          value={select}
+          onChange={(e) => setselect(e.target.value)}
+        >
+          <option value="na">Filter By</option>
           <option value="Completed">Completed</option>
           <option value="Favourite">Favourite</option>
         </select>
