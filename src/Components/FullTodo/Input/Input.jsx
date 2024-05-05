@@ -18,6 +18,7 @@ const Input = () => {
       todoDsc: dsc,
       Completed: completed,
       favorite: favorite,
+      toggle:false
     });
     setTitle("")
     setdsc("")
