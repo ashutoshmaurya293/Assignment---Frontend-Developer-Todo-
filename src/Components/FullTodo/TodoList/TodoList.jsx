@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./TodoList.css";
-import { getDatabase, onValue, ref, update } from "firebase/database";
+import { getDatabase, onValue, ref, remove, update } from "firebase/database";
 import { app } from "../../../friebace";
 
 const TodoList = () => {
   const [Data, setData] = useState();
   useEffect(() => {
     const db = getDatabase(app);
-    const studentref = ref(db, "todo");
-    onValue(studentref, (snapshort) => {
+    const TodoRef = ref(db, "todo");
+    onValue(TodoRef, (snapshort) => {
       const data = snapshort.val();
       setData(data);
     });
@@ -16,10 +16,43 @@ const TodoList = () => {
   const ToggleOpen = (id) => {
     setData((prevData) => {
       // Create a new object with updated toggle property
-      const updatedData = {...prevData,[id]: {...prevData[id],toggle: true},
-      // const updatedData = {...prevData,[id]: {...prevData[id],toggle: false,},
+      const updatedData = {
+        ...prevData,
+        [id]: { ...prevData[id], toggle: true },
       };
-      console.log(updatedData);
+      return updatedData;
+    });
+  };
+  const DeliteHandaler = (id) => {
+    setData((prevData) => {
+      // Create a new object with updated toggle property
+      const updatedData = {
+        ...prevData,
+        [id]: { ...prevData[id], toggle: false },
+      };
+      return updatedData;
+    });
+    const db = getDatabase(app);
+    const TodoRef = ref(db, "todo/" + id);
+    remove(TodoRef);
+  };
+  const FavouriteHandaler = (id) => {
+    setData((prevData) => {
+      // Create a new object with updated toggle property
+      const updatedData = {
+        ...prevData,
+        [id]: { ...prevData[id], toggle: false },
+      };
+      return updatedData;
+    });
+  };
+  const CompletedHandaler = (id) => {
+    setData((prevData) => {
+      // Create a new object with updated toggle property
+      const updatedData = {
+        ...prevData,
+        [id]: { ...prevData[id], toggle: false },
+      };
       return updatedData;
     });
   };
@@ -65,9 +98,9 @@ const TodoList = () => {
                 </svg>
 
                 <div className={value?.toggle ? "fun" : "none"}>
-                  <li>Completed</li>
-                  <li>Favourite</li>
-                  <li>Delete</li>
+                  <li onClick={() => CompletedHandaler(key)}>Completed</li>
+                  <li onClick={() => FavouriteHandaler(key)}>Favourite</li>
+                  <li onClick={() => DeliteHandaler(key)}>Delete</li>
                 </div>
               </div>
               <hr />
