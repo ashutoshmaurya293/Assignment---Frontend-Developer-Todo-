@@ -1,0 +1,95 @@
+.loginFirst {
+  height: 100vh;
+  width: 50%;
+  /* background-color: red; */
+}
+.loginsec {
+  height: 100vh;
+  width: 50%;
+  /* background-color: blue; */
+}
+.fullLogin {
+  display: flex;
+}
+.logo svg {
+  width: 44px;
+  height: 60.76px;
+  margin: 3rem;
+}
+.Logindsc {
+  height: 400px;
+  width: 70%;
+  /* background-color: red; */
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.hLogin {
+  font-family: Roboto;
+  font-size: 28.14px;
+  font-weight: 500;
+  line-height: 38.84px;
+  text-align: left;
+}
+.LoginContent {
+  width: 85%;
+  font-family: Roboto;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 25px;
+  text-align: center;
+  margin-top: 1.5rem;
+  color: rgba(0, 0, 0, 0.55);
+}
+.LoginButton {
+  height: 48px;
+  width: 55%;
+  background: rgba(89, 126, 247, 1);
+  margin: 2.5rem auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 0.5rem;
+}
+.LoginButton svg {
+  width: 42px;
+  height: 39px;
+  background: #fff;
+  padding: 5px;
+  border-radius: 3px;
+}
+.LoginButton p {
+  color: #fff;
+}
+.loginsec {
+  background-image: url(../../../public/Rectangle\ 1.png);
+  background-size: "cover";
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.boyImg {
+  height: 45%;
+  width: 50%;
+}
+.light {
+  position: absolute;
+  width: 114px;
+  height: 136px;
+  top: -1px;
+  left: 1001px;
+  gap: 0px;
+  opacity: 0px;
+}
+.light img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+.boyImg img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
