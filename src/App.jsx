@@ -1,11 +1,12 @@
 import './App.css'
-import FullTodo from './Components/FullTodo/FullTodo'
+import AllRouter from './Components/AllRoute/AllRouter'
 
 function App() {
 
   return (
     <>
-      <FullTodo/>
+    <AllRouter/>
+    
     </>
   )
 }

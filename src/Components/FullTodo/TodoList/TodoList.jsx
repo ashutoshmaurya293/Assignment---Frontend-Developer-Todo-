@@ -1,109 +1,133 @@
 import React, { useEffect, useState } from "react";
 import "./TodoList.css";
-import { getDatabase, onValue, ref, remove, update } from "firebase/database";
-import { app } from "../../../friebace";
+import { db } from "../../../friebace";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 
 const TodoList = ({ setselect, select }) => {
-  const [Data, setData] = useState();
+  const [MainData, setMainData] = useState();
+  const [Data, setData] = useState([]);
+  const [search, setsearch] = useState("");
 
+  // GET DATA
   useEffect(() => {
-    // Function to filter completed todos
-    if (Data && select == "Completed") {
-      const filterCompletedTodos = async () => {
-        const filteredTodos = await Object.entries(Data)
-          .filter(([key, value]) => value.Completed === true)
-          .reduce((obj, [key, value]) => {
-            obj[key] = value;
-            return obj;
-          }, {});
-        // setData(filteredTodos);
-        setData(filteredTodos);
-      };
+    const GetTodo = async () => {
+      try {
+        const TodoRef = collection(db, "todos");
 
-      filterCompletedTodos();
-    } else if (Data && select == "na") return;
-  }, [select]);
-
-  useEffect(() => {
-    // Function to filter completed todos
-    if (Data && select == "Favourite") {
-      const filterCompletedTodos = async () => {
-        const filteredTodos = await Object.entries(Data)
-          .filter(([key, value]) => value.favorite === true)
-          .reduce((obj, [key, value]) => {
-            obj[key] = value;
-            return obj;
-          }, {});
-        // setData(filteredTodos);
-        setData(filteredTodos);
-      };
-
-      filterCompletedTodos();
-    } else if (Data && select == "na") return;
-  }, [select]);
-
-  useEffect(() => {
-    const takeData = async () => {
-      const db = getDatabase(app);
-      const TodoRef = ref(db, "todo");
-      onValue(TodoRef, (snapshort) => {
-        const data = snapshort.val();
-        setData(data);
-      });
+        onSnapshot(TodoRef, (snapshot) => {
+          const TodoList = snapshot.docs.map((doc) => {
+            return {
+              id: doc.id,
+              ...doc.data(),
+            };
+          });
+          // console.log(TodoList);
+          setData(TodoList);
+          setMainData(TodoList);
+          return TodoList;
+        });
+      } catch (error) {
+        console.log(error);
+      }
     };
-    takeData();
+
+    GetTodo();
+  }, []);
+  // CompleteTodo and favoriteTodo
+  useEffect(() => {
+    if (Data && select == "Completed") {
+      const CompleteTodo = MainData.filter((task) => task.Completed === true);
+      setData(CompleteTodo);
+    }
+    if (Data && select == "Favourite") {
+      const favoriteTodo = MainData?.filter((task) => task.favorite === true);
+      setData(favoriteTodo);
+    } else if (select == "na") {
+      setData(MainData);
+    }
   }, [select]);
+
   const ToggleOpen = (id) => {
     setData((prevData) => {
-      // Create a new object with updated toggle property
-      const updatedData = {
-        ...prevData,
-        [id]: { ...prevData[id], toggle: true },
-      };
-      return updatedData;
+      return prevData.map((item) => {
+        if (item.id === id) {
+          return { ...item, toggle: true };
+        }
+        return item;
+      });
     });
   };
-  const DeliteHandaler = (id) => {
+
+  // DeliteHandaler
+
+  const DeliteHandaler = async (id) => {
     setData((prevData) => {
-      // Create a new object with updated toggle property
-      const updatedData = {
-        ...prevData,
-        [id]: { ...prevData[id], toggle: false },
-      };
-      return updatedData;
+      return prevData.map((item) => {
+        if (item.id === id) {
+          return { ...item, toggle: false };
+        }
+        return item;
+      });
     });
-    const db = getDatabase(app);
-    const TodoRef = ref(db, "todo/" + id);
-    remove(TodoRef);
+    try {
+      await deleteDoc(doc(db, "todos", id));
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const FavouriteHandaler = (id) => {
+  // FavouriteHandaler
+
+  const FavouriteHandaler = async (id) => {
     setData((prevData) => {
-      // Create a new object with updated toggle property
-      const updatedData = {
-        ...prevData,
-        [id]: { ...prevData[id], toggle: false },
-      };
-      return updatedData;
+      return prevData.map((item) => {
+        if (item.id === id) {
+          return { ...item, toggle: false };
+        }
+        return item;
+      });
     });
-    const db = getDatabase(app);
-    const TodoRef = ref(db, "todo/" + id);
-    update(TodoRef, {
-      favorite: true,
-    });
+    try {
+      const contactRef = doc(db, "todos", id);
+      await updateDoc(contactRef, {
+        favorite: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const CompletedHandaler = (id) => {
+  // CompletedHandaler
+  const CompletedHandaler = async (id) => {
     setData((prevData) => {
-      // Create a new object with updated toggle property
-      const updatedData = {
-        ...prevData,
-        [id]: { ...prevData[id], toggle: false },
-      };
-      return updatedData;
+      return prevData.map((item) => {
+        if (item.id === id) {
+          return { ...item, toggle: false };
+        }
+        return item;
+      });
     });
-    const db = getDatabase(app);
-    const TodoRef = ref(db, "todo/" + id);
-    update(TodoRef, { Completed: true });
+    try {
+      const contactRef = doc(db, "todos", id);
+      await updateDoc(contactRef, {
+        Completed: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
+  // search Todo
+  useEffect(() => {
+    const filterData = MainData?.filter((e) =>
+      e?.todo?.toLowerCase().includes(search.toLowerCase())
+    );
+    setData(filterData);
+  }, [search]);
+
   return (
     <div id="list">
       <div className="h2">
@@ -111,7 +135,12 @@ const TodoList = ({ setselect, select }) => {
       </div>
       <div className="first">
         <div className="search">
-          <input type="text" placeholder="search..." />
+          <input
+            type="text"
+            placeholder="search..."
+            value={search}
+            onChange={(e) => setsearch(e.target.value)}
+          />
         </div>
         <select
           className="fillter"
@@ -125,17 +154,17 @@ const TodoList = ({ setselect, select }) => {
       </div>
 
       {Data &&
-        Object.entries(Data).map(([key, value]) => {
+        Data?.map((e) => {
           return (
-            <div key={key}>
+            <div key={e.id}>
               <div className="todoList">
                 <div className="content">
-                  <p className="pTitle">{value?.todoTitle}</p>
-                  <p className="description">{value?.todoDsc}</p>
+                  <p className="pTitle">{e?.todo}</p>
+                  <p className="description">{e?.dsc}</p>
                 </div>
                 {/* More */}
                 <svg
-                  onClick={() => ToggleOpen(key)}
+                  onClick={() => ToggleOpen(e?.id)}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -150,10 +179,10 @@ const TodoList = ({ setselect, select }) => {
                   />
                 </svg>
 
-                <div className={value?.toggle ? "fun" : "none"}>
-                  <li onClick={() => CompletedHandaler(key)}>Completed</li>
-                  <li onClick={() => FavouriteHandaler(key)}>Favourite</li>
-                  <li onClick={() => DeliteHandaler(key)}>Delete</li>
+                <div className={e?.toggle ? "fun" : "none"}>
+                  <li onClick={() => CompletedHandaler(e?.id)}>Completed</li>
+                  <li onClick={() => FavouriteHandaler(e?.id)}>Favourite</li>
+                  <li onClick={() => DeliteHandaler(e?.id)}>Delete</li>
                 </div>
               </div>
               <hr />

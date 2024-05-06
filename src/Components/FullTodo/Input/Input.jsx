@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./Input.css";
 import { getDatabase, ref, set } from "firebase/database";
-import { app } from "../../../friebace";
+import { app, db } from "../../../friebace";
+import { addDoc, collection } from "firebase/firestore";
 
 const Input = ({setselect}) => {
   const [Title, setTitle] = useState("");
@@ -10,23 +11,24 @@ const Input = ({setselect}) => {
   const [favorite, setfavorite] = useState(false);
   const id = Date.now()
 
-
-  const AddTodo = () => {
-    if(Title =="" && dsc == "")return
-    const databace = getDatabase(app);
-    set(ref(databace, 'todo/' + id), {
-      todoTitle: Title,
-      todoDsc: dsc,
-      Completed: completed,
-      favorite: favorite,
-      toggle:false
-    });
-    setTitle("")
-    setdsc("")
-    setselect("")
+  const AddTodo = async () => {
+    setTitle(" ")
+    setdsc(" ")
+    setselect(" ")
+    try {
+      const contactRef = collection(db, "todos");
+      await addDoc(contactRef, {
+        todo: Title,
+        dsc: dsc,
+        Completed: completed,
+        favorite: favorite,
+      });
+      
+    } catch (error) {
+      console.log(error);
+    }
+   
   };
-
-
   return (
     <>
       <div className="Vector">
