@@ -11,9 +11,10 @@ const Input = ({ setselect }) => {
   const [completed, setcompleted] = useState(false);
   const [favorite, setfavorite] = useState(false);
 
+  // AddTodo 
+  
   const AddTodo = async (e) => {
     e.preventDefault();
-
     if (Title == " " || dsc == " ") return;
     setTitle(" ");
     setdsc(" ");
@@ -33,6 +34,7 @@ const Input = ({ setselect }) => {
   };
   return (
     <>
+    {/* TopLogo  */}
       <div className="Vector">
         <svg
           width="44"
@@ -49,7 +51,6 @@ const Input = ({ setselect }) => {
       </div>
       <div className="inputs">
         <div className="inph2">
-          {" "}
           <h2>TODO</h2>
         </div>
         <div className="text">
@@ -60,6 +61,7 @@ const Input = ({ setselect }) => {
             vitae faucibus nibh dolor dui.{" "}
           </p>
         </div>
+        {/* Todo Input Form  */}
         <form action="" className="textinput">
           <input
             type="text"
