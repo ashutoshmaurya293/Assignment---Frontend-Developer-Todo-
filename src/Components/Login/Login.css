@@ -73,16 +73,19 @@
   color: #fff;
 }
 .loginsec {
-  background-image: url(../../../public/Rectangle\ 1.png);
-  background-size: "cover";
-  background-position: 5%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.loginsec .bgc{
+  height: 100%;
+  width: 100%;
+  object-fit: fill;
+}
 .boyImg {
   height: 45%;
   width: 50%;
+  position: absolute;
 }
 .light {
   position: absolute;

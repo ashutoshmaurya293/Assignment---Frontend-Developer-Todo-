@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Rectangle from "../../../public/Rectangle.png"
 import light from "../../../public/light.png"
+import Rectangle1 from "../../../public/Rectangle 1.png"
 
 const Login = () => {
   const Navigaate = useNavigate();
@@ -83,6 +84,7 @@ const Login = () => {
         </div>
       </div>
       <div className="loginsec">
+        <img src={Rectangle1} alt="" className="bgc"/>
         <div className="light">
             <img src={light} alt="" />
         </div>
