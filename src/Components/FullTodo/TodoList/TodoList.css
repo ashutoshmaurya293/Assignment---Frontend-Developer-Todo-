@@ -79,6 +79,9 @@ option {
   left: 894px;
   gap: 0px;
   opacity: 0px;
+   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .todoList svg {
   height: 32px;
