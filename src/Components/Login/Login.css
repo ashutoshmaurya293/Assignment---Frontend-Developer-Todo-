@@ -50,7 +50,17 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  padding: 0 0.5rem;
+  padding: 0 0.3rem;
+  cursor: pointer;
+  transition: 0.3s all ease-in;
+  &:hover {
+    background: rgba(89, 126, 247, 0.849);
+    transition: 0.3s all ease-in;
+  }
+  &:active {
+    scale: 0.9;
+    transition: 0.3s all ease-in;
+  }
 }
 .LoginButton svg {
   width: 42px;
@@ -65,7 +75,7 @@
 .loginsec {
   background-image: url(../../../public/Rectangle\ 1.png);
   background-size: "cover";
-  background-position: center;
+  background-position: 5%;
   display: flex;
   align-items: center;
   justify-content: center;

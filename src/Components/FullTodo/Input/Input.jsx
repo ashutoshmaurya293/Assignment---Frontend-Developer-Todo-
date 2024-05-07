@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import "./Input.css";
-import { getDatabase, ref, set } from "firebase/database";
-import { app, db } from "../../../friebace";
+import { db } from "../../../friebace";
 import { addDoc, collection } from "firebase/firestore";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Input = ({setselect}) => {
+const Input = ({ setselect }) => {
   const [Title, setTitle] = useState("");
   const [dsc, setdsc] = useState("");
   const [completed, setcompleted] = useState(false);
   const [favorite, setfavorite] = useState(false);
-  const id = Date.now()
 
-  const AddTodo = async () => {
-    setTitle(" ")
-    setdsc(" ")
-    setselect(" ")
+  const AddTodo = async (e) => {
+    e.preventDefault();
+
+    if (Title == " " || dsc == " ") return;
+    setTitle(" ");
+    setdsc(" ");
+    setselect(" ");
     try {
+      toast.success("Todo Added");
       const contactRef = collection(db, "todos");
       await addDoc(contactRef, {
         todo: Title,
@@ -23,11 +27,9 @@ const Input = ({setselect}) => {
         Completed: completed,
         favorite: favorite,
       });
-      
     } catch (error) {
       console.log(error);
     }
-   
   };
   return (
     <>
@@ -58,7 +60,7 @@ const Input = ({setselect}) => {
             vitae faucibus nibh dolor dui.{" "}
           </p>
         </div>
-        <div className="textinput">
+        <form action="" className="textinput">
           <input
             type="text"
             className="todotext"
@@ -75,13 +77,10 @@ const Input = ({setselect}) => {
             onChange={(e) => setdsc(e.target.value)}
           />
           <br />
-          <button
-            className="add"
-            onClick={(e) => AddTodo(e)}
-          >
+          <button className="add" onClick={(e) => AddTodo(e)}>
             <span>Add</span>
           </button>
-        </div>
+        </form>
       </div>
     </>
   );

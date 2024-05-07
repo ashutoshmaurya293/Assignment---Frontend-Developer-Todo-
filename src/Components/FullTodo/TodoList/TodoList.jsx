@@ -8,6 +8,8 @@ import {
   onSnapshot,
   updateDoc,
 } from "firebase/firestore";
+import {toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const TodoList = ({ setselect, select }) => {
   const [MainData, setMainData] = useState();
@@ -64,9 +66,10 @@ const TodoList = ({ setselect, select }) => {
     });
   };
 
-  // DeliteHandaler
+  // DeleteHandaler
 
-  const DeliteHandaler = async (id) => {
+  const DeleteHandaler = async (id) => {
+    toast.success("Todo Deleted")
     setData((prevData) => {
       return prevData.map((item) => {
         if (item.id === id) {
@@ -84,6 +87,7 @@ const TodoList = ({ setselect, select }) => {
   // FavouriteHandaler
 
   const FavouriteHandaler = async (id) => {
+    toast.success("Todo Added in Favourite List")
     setData((prevData) => {
       return prevData.map((item) => {
         if (item.id === id) {
@@ -103,6 +107,7 @@ const TodoList = ({ setselect, select }) => {
   };
   // CompletedHandaler
   const CompletedHandaler = async (id) => {
+    toast.success("Todo Completed")
     setData((prevData) => {
       return prevData.map((item) => {
         if (item.id === id) {
@@ -182,7 +187,7 @@ const TodoList = ({ setselect, select }) => {
                 <div className={e?.toggle ? "fun" : "none"}>
                   <li onClick={() => CompletedHandaler(e?.id)}>Completed</li>
                   <li onClick={() => FavouriteHandaler(e?.id)}>Favourite</li>
-                  <li onClick={() => DeliteHandaler(e?.id)}>Delete</li>
+                  <li onClick={() => DeleteHandaler(e?.id)}>Delete</li>
                 </div>
               </div>
               <hr />
